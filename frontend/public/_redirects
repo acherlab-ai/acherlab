@@ -1,3 +1,0 @@
-# Proxy API requests to Railway backend
-# Sau khi deploy Railway, thay URL dưới bằng URL thật của Railway
-/api/*  https://acherlab-production.up.railway.app/:splat  200
