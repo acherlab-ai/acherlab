@@ -12,7 +12,10 @@ class DaytonaService {
   }
 
   async createSandbox({ snapshot, cpu, memory, disk, target = 'us', autoStopInterval }) {
-    const body = { snapshot, cpu, memory, disk, target };
+    const body = { snapshot, target };
+    if (cpu != null) body.cpu = cpu;
+    if (memory != null) body.memory = memory;
+    if (disk != null) body.disk = disk;
     if (autoStopInterval) body.autoStopInterval = autoStopInterval;
 
     const res = await fetch(`${DAYTONA_API}/sandbox`, {

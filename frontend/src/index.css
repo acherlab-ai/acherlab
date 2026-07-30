@@ -2,27 +2,55 @@
 @tailwind components;
 @tailwind utilities;
 
-* { scrollbar-width: thin; scrollbar-color: #2a2a2b transparent; }
+* { scrollbar-width: thin; scrollbar-color: #232937 transparent; }
 
-body { min-height: 100vh; }
+body {
+  @apply bg-surface text-white antialiased min-h-screen;
+  background-image: radial-gradient(ellipse at top right, rgba(99,102,241,0.06), transparent 60%),
+                    radial-gradient(ellipse at bottom left, rgba(99,102,241,0.03), transparent 60%);
+}
 
 input, textarea, select {
-  @apply bg-linear-surface border border-linear-border rounded-lg px-3 py-2 text-linear-text placeholder-linear-muted/50
-    focus:outline-none focus:ring-2 focus:ring-linear-accent/30 focus:border-linear-accent transition-all duration-150;
+  @apply bg-dark-800/50 border border-border rounded-xl px-4 py-3 text-white placeholder-dark-400
+    focus:outline-none focus:ring-2 focus:ring-accent-500/30 focus:border-accent-500/50
+    transition-all duration-200 text-sm;
 }
 
 button, .btn {
-  @apply px-4 py-2 rounded-lg font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+  @apply px-5 py-2.5 rounded-xl font-medium transition-all duration-200 text-sm
+    disabled:opacity-50 disabled:cursor-not-allowed;
 }
 
 .btn-primary {
-  @apply bg-linear-accent hover:bg-linear-accent/90 text-white shadow-lg shadow-linear-accent/20;
+  @apply bg-gradient-to-r from-accent-500 to-accent-600 hover:from-accent-400 hover:to-accent-500
+    text-white shadow-lg shadow-accent-500/20 hover:shadow-accent-500/30;
 }
 
 .btn-ghost {
-  @apply text-linear-muted hover:text-linear-text hover:bg-linear-hover;
+  @apply text-dark-300 hover:text-white hover:bg-white/5;
+}
+
+.btn-danger {
+  @apply bg-red-500/10 text-red-400 hover:bg-red-500/20 border border-red-500/20;
 }
 
 .card {
-  @apply bg-linear-surface border border-linear-border rounded-xl p-5;
+  @apply bg-card border border-border rounded-2xl p-5 transition-all duration-200;
+}
+
+.card-hover {
+  @apply card hover:border-accent-500/30 hover:shadow-lg hover:shadow-accent-500/5;
+}
+
+.gradient-text {
+  @apply bg-gradient-to-r from-white via-white to-accent-300 bg-clip-text text-transparent;
+}
+
+.glass {
+  @apply bg-white/[0.02] backdrop-blur-xl border border-white/[0.05];
+}
+
+@media (max-width: 768px) {
+  .card { @apply rounded-xl p-4; }
+  .btn { @apply px-4 py-2.5; }
 }

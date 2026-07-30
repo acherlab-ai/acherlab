@@ -107,9 +107,6 @@ router.post('/create', async (req, res) => {
 
     const sandbox = await daytona.createSandbox({
       snapshot: config.snapshot,
-      cpu: config.cpu,
-      memory: config.memory,
-      disk: config.disk,
       autoStopInterval: plan.maxHours > 0 ? plan.maxHours * 60 : undefined
     });
 
@@ -126,8 +123,8 @@ router.post('/create', async (req, res) => {
       VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
     `).run(
       id, user.id, apiKey.id, sandbox.id, sandbox.name || sandbox.id,
-      user.plan, sandbox.cpu, sandbox.memory, sandbox.disk,
-      sshData?.token, sshData?.sshCommand, expiresAt, sandbox.state || 'started'
+      user.plan, config.cpu, config.memory, config.disk,
+      sshData?.token, sshData?.sshCommand, expiresAt, 'started'
     );
 
     const saved = db.prepare('SELECT * FROM sandboxes WHERE id = ?').get(id);
@@ -175,11 +172,9 @@ router.post('/:id/start', async (req, res) => {
       if (!apiKey) return res.status(500).json({ error: 'No API key' });
 
       const daytona = new DaytonaService(apiKey.key);
+      const snapshotKey = `daytona-${sbox.cpu <= 1 ? 'small' : sbox.cpu <= 2 ? 'medium' : 'large'}`;
       const sandbox = await daytona.createSandbox({
-        snapshot: SNAPSHOT_MAP[`daytona-${sbox.cpu === 1 ? 'small' : sbox.cpu === 2 ? 'medium' : 'large'}`]?.snapshot || 'daytona-small',
-        cpu: sbox.cpu,
-        memory: sbox.ram,
-        disk: sbox.disk
+        snapshot: SNAPSHOT_MAP[snapshotKey]?.snapshot || 'daytona-small',
       });
 
       const sshData = await daytona.createSshAccess(sandbox.id);

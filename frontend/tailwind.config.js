@@ -4,21 +4,25 @@ export default {
   theme: {
     extend: {
       colors: {
-        'linear-bg': '#0a0a0b',
-        'linear-surface': '#141415',
-        'linear-border': '#1e1e1f',
-        'linear-hover': '#1a1a1b',
-        'linear-text': '#e1e1e3',
-        'linear-muted': '#7e7e80',
-        'linear-accent': '#5e6ad2',
-        'linear-green': '#22c55e',
-        'linear-yellow': '#eab308',
-        'linear-red': '#ef4444',
-        'linear-blue': '#3b82f6',
+        dark: { 50: '#f8fafc', 100: '#e2e8f0', 200: '#cbd5e1', 300: '#94a3b8', 400: '#64748b', 500: '#475569', 600: '#334155', 700: '#1e293b', 800: '#0f172a', 900: '#020617' },
+        accent: { 50: '#eef2ff', 100: '#e0e7ff', 200: '#c7d2fe', 300: '#a5b4fc', 400: '#818cf8', 500: '#6366f1', 600: '#4f46e5', 700: '#4338ca', 800: '#3730a3', 900: '#312e81' },
+        surface: '#0f1219',
+        card: '#1a1f2e',
+        border: '#232937',
       },
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         mono: ['JetBrains Mono', 'monospace'],
+      },
+      animation: {
+        'fade-in': 'fadeIn 0.5s ease-out',
+        'slide-up': 'slideUp 0.3s ease-out',
+        'glow': 'glow 2s ease-in-out infinite alternate',
+      },
+      keyframes: {
+        fadeIn: { '0%': { opacity: '0' }, '100%': { opacity: '1' } },
+        slideUp: { '0%': { opacity: '0', transform: 'translateY(10px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+        glow: { '0%': { boxShadow: '0 0 20px rgba(99,102,241,0.1)' }, '100%': { boxShadow: '0 0 40px rgba(99,102,241,0.3)' } },
       }
     }
   },
