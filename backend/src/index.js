@@ -1,10 +1,13 @@
 import express from 'express';
 import cors from 'cors';
+import path from 'path';
+import { fileURLToPath } from 'url';
 import authRoutes from './routes/auth.js';
 import sandboxRoutes from './routes/sandboxes.js';
 import adminRoutes from './routes/admin.js';
 import { authMiddleware } from './middleware/auth.js';
 
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 const PORT = process.env.PORT || 3001;
 
@@ -19,6 +22,13 @@ app.get('/api/health', (req, res) => res.json({ status: 'ok', time: new Date().t
 app.use('/api/auth', authRoutes);
 app.use('/api/sandboxes', sandboxRoutes);
 app.use('/api/admin', adminRoutes);
+
+const frontendDist = path.join(__dirname, '../../frontend/dist');
+app.use(express.static(frontendDist));
+app.get('*', (req, res) => {
+  if (req.path.startsWith('/api')) return res.status(404).json({ error: 'Not found' });
+  res.sendFile(path.join(frontendDist, 'index.html'));
+});
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
