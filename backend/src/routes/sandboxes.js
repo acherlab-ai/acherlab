@@ -77,6 +77,7 @@ router.get('/stats', (req, res) => {
 router.post('/create', async (req, res) => {
   try {
     const user = db.prepare('SELECT * FROM users WHERE id = ?').get(req.user.id);
+    if (!user) return res.status(401).json({ error: 'User not found' });
     const plan = PLANS[user.plan];
     if (!plan) return res.status(400).json({ error: 'Invalid plan' });
 
