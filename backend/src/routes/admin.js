@@ -39,11 +39,17 @@ router.post('/api-keys', (req, res) => {
 });
 
 router.put('/api-keys/:id', (req, res) => {
-  const { label, max_cpu, max_ram, max_disk } = req.body;
-  db.prepare(`
-    UPDATE api_keys SET label = COALESCE(?, label), max_cpu = COALESCE(?, max_cpu), max_ram = COALESCE(?, max_ram), max_disk = COALESCE(?, max_disk)
-    WHERE id = ?
-  `).run(label, max_cpu, max_ram, max_disk, req.params.id);
+  const { label, max_cpu, max_ram, max_disk, is_active } = req.body;
+  const updates = [];
+  const params = [];
+  if (label !== undefined) { updates.push('label = ?'); params.push(label); }
+  if (max_cpu !== undefined) { updates.push('max_cpu = ?'); params.push(max_cpu); }
+  if (max_ram !== undefined) { updates.push('max_ram = ?'); params.push(max_ram); }
+  if (max_disk !== undefined) { updates.push('max_disk = ?'); params.push(max_disk); }
+  if (is_active !== undefined) { updates.push('is_active = ?'); params.push(is_active ? 1 : 0); }
+  if (updates.length === 0) return res.status(400).json({ error: 'No fields to update' });
+  params.push(req.params.id);
+  db.prepare(`UPDATE api_keys SET ${updates.join(', ')} WHERE id = ?`).run(...params);
   res.json(db.prepare('SELECT * FROM api_keys WHERE id = ?').get(req.params.id));
 });
 
@@ -70,6 +76,11 @@ router.post('/plan-limits', (req, res) => {
   const dbKey = `${plan}_${key}`;
   db.prepare('INSERT OR REPLACE INTO settings (key, value) VALUES (?, ?)').run(dbKey, String(value));
   res.json({ message: 'Updated' });
+});
+
+router.get('/sandboxes', (req, res) => {
+  const sandboxes = db.prepare('SELECT s.*, u.username FROM sandboxes s JOIN users u ON s.user_id = u.id ORDER BY s.started_at DESC').all();
+  res.json(sandboxes);
 });
 
 router.get('/stats', (req, res) => {

@@ -31,6 +31,7 @@ export const sandboxes = {
 
 export const admin = {
   users: () => request('/admin/users'),
+  sandboxes: () => request('/admin/sandboxes'),
   updatePlan: (id, plan) => request(`/admin/users/${id}/plan`, { method: 'PATCH', body: JSON.stringify({ plan }) }),
   apiKeys: () => request('/admin/api-keys'),
   addApiKey: (data) => request('/admin/api-keys', { method: 'POST', body: JSON.stringify(data) }),

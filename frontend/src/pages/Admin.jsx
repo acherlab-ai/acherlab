@@ -16,7 +16,7 @@ export default function Admin() {
     try {
       const [u, k, s] = await Promise.all([
         admin.users().catch(() => []),
-        admin.keys().catch(() => []),
+        admin.apiKeys().catch(() => []),
         admin.sandboxes().catch(() => []),
       ]);
       setUsers(u); setKeys(k); setSandboxes(s);
@@ -27,7 +27,7 @@ export default function Admin() {
   const addApiKey = async (e) => {
     e.preventDefault(); setMessage('');
     try {
-      await admin.addKey(addKey);
+      await admin.addApiKey(addKey);
       setAddKey({ key: '', label: '', max_cpu: 4, max_ram: 8, max_disk: 30 });
       await load();
       setMessage('API key added');
@@ -36,7 +36,7 @@ export default function Admin() {
 
   const toggleKey = async (id, active) => {
     try {
-      await admin.toggleKey(id, active);
+      await admin.updateApiKey(id, { is_active: active });
       await load();
     } catch (err) { setMessage(err.message); }
   };
@@ -44,7 +44,7 @@ export default function Admin() {
   const deleteKey = async (id) => {
     if (!confirm('Delete this API key?')) return;
     try {
-      await admin.deleteKey(id);
+      await admin.deleteApiKey(id);
       await load();
     } catch (err) { setMessage(err.message); }
   };
@@ -52,7 +52,7 @@ export default function Admin() {
   const updatePlan = async () => {
     if (!editPlan.userId) return;
     try {
-      await admin.updateUser(editPlan.userId, { plan: editPlan.plan });
+      await admin.updatePlan(editPlan.userId, editPlan.plan);
       setMessage('Plan updated');
       await load();
     } catch (err) { setMessage(err.message); }
