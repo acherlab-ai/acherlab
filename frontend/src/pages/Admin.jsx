@@ -64,7 +64,7 @@ export default function Admin() {
     { id: 'labs', label: 'All Labs', icon: 'M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z' },
   ];
 
-  if (!user?.is_admin) return (
+  if (!user || user.plan !== 'admin') return (
     <div className="min-h-screen flex items-center justify-center p-4">
       <div className="text-center">
         <div className="w-16 h-16 rounded-2xl bg-red-500/10 flex items-center justify-center mx-auto mb-4">
