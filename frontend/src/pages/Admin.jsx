@@ -129,7 +129,7 @@ export default function Admin() {
                         'bg-dark-600 text-dark-300'
                       }`}>{u.plan}</span>
                     </td>
-                    <td className="px-6 py-4 text-dark-400 text-xs">{u.plan_end || '—'}</td>
+                    <td className="px-6 py-4 text-dark-400 text-xs">{u.plan_expires_at || '—'}</td>
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <select value={u.plan || 'free'}
