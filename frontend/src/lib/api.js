@@ -5,7 +5,11 @@ async function request(path, options = {}) {
   const headers = { 'Content-Type': 'application/json', ...options.headers };
   if (token) headers['Authorization'] = `Bearer ${token}`;
 
-  const res = await fetch(`${API}${path}`, { ...options, headers });
+  if (res.status === 401) {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    window.location.href = '/login';
+  }
   const data = await res.json();
   if (!res.ok) throw new Error(data.error || 'Request failed');
   return data;
