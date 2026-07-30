@@ -1,0 +1,13 @@
+{
+  "name": "lab-acherlab",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "install:all": "cd backend && npm install && cd ../frontend && npm install",
+    "build": "cd frontend && npx vite build",
+    "start:backend": "cd backend && node src/index.js",
+    "start:frontend": "cd frontend && npx vite preview --port 5173",
+    "dev": "cd backend && node src/index.js & cd frontend && npx vite --port 5173",
+    "start": "cd backend && node src/index.js & cd frontend && npx vite preview --port 5173 --host 0.0.0.0"
+  }
+}

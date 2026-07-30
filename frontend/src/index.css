@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* { scrollbar-width: thin; scrollbar-color: #2a2a2b transparent; }
+
+body { min-height: 100vh; }
+
+input, textarea, select {
+  @apply bg-linear-surface border border-linear-border rounded-lg px-3 py-2 text-linear-text placeholder-linear-muted/50
+    focus:outline-none focus:ring-2 focus:ring-linear-accent/30 focus:border-linear-accent transition-all duration-150;
+}
+
+button, .btn {
+  @apply px-4 py-2 rounded-lg font-medium transition-all duration-150 disabled:opacity-50 disabled:cursor-not-allowed;
+}
+
+.btn-primary {
+  @apply bg-linear-accent hover:bg-linear-accent/90 text-white shadow-lg shadow-linear-accent/20;
+}
+
+.btn-ghost {
+  @apply text-linear-muted hover:text-linear-text hover:bg-linear-hover;
+}
+
+.card {
+  @apply bg-linear-surface border border-linear-border rounded-xl p-5;
+}
